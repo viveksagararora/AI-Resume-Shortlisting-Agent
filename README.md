@@ -23,7 +23,7 @@ This project was developed as part of the TCI AI Enablement Internship Assignmen
 
 ## Clone Repository
 
-git clone <your-github-repo-link>
+git clone https://github.com/viveksagararora/AI-Resume-Shortlisting-Agent.git
 
 ## Navigate to Project Folder
 
