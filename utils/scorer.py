@@ -131,11 +131,11 @@ def evaluate_candidate(
     # FINAL RECOMMENDATION
     # ---------------------------
 
-    if total_score >= 75 and semantic_score >= 80:
+    if total_score >= 70 and semantic_score >= 80:
 
         recommendation = "Hire"
 
-    elif total_score >= 55 and semantic_score >= 65:
+    elif total_score >= 55 and semantic_score >= 70:
 
         recommendation = "Maybe"
 
