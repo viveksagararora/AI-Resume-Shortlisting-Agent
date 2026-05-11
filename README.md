@@ -11,7 +11,7 @@ The system:
 * Evaluates candidates using rubric-based AI scoring
 * Ranks candidates automatically
 * Supports HR override decisions
-* Generates shortlist reports
+* Generates CSV and PDF shortlist reports
 
 The application uses transformer-based semantic embeddings and NLP techniques for intelligent candidate evaluation.
 
@@ -41,6 +41,10 @@ python -m venv venv
 
 pip install -r requirements.txt
 
+## Install PDF Report Library
+
+pip install reportlab
+
 ## Run Application
 
 streamlit run app.py
@@ -66,8 +70,10 @@ Candidate Ranking
         ↓
 HR Override
         ↓
-CSV Report Export
+CSV/PDF Report Export
 ```
+
+---
 
 # LLM & Framework Choice with Rationale
 
@@ -88,6 +94,9 @@ Reason: Accurate semantic comparison between embeddings.
 
 Resume Parsing Libraries: PyMuPDF and python-docx
 Reason: Reliable text extraction from PDF and DOCX resumes.
+
+PDF Report Generation: ReportLab
+Reason: Automated generation of structured shortlist reports in PDF format.
 
 Data Handling: Pandas
 Reason: Structured candidate report generation and export.
