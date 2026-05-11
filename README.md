@@ -1,47 +1,53 @@
-AI Resume Shortlisting Agent
-Project Overview
+# AI Resume Shortlisting Agent
+
+## Project Overview
 
 The AI Resume Shortlisting Agent is an AI-powered recruiter workflow automation system developed to simplify the resume screening and candidate shortlisting process.
 
 The system:
 
-Parses resumes and job descriptions
-Performs semantic similarity matching
-Evaluates candidates using rubric-based AI scoring
-Ranks candidates automatically
-Supports HR override decisions
-Generates shortlist reports
+* Parses resumes and job descriptions
+* Performs semantic similarity matching
+* Evaluates candidates using rubric-based AI scoring
+* Ranks candidates automatically
+* Supports HR override decisions
+* Generates shortlist reports
 
 The application uses transformer-based semantic embeddings and NLP techniques for intelligent candidate evaluation.
 
 This project was developed as part of the TCI AI Enablement Internship Assignment.
 
-Setup Instructions
-Clone Repository
+---
+
+# Setup Instructions
+
+## Clone Repository
 
 git clone <your-github-repo-link>
 
-Navigate to Project Folder
+## Navigate to Project Folder
 
 cd AI_Resume_Agent
 
-Create Virtual Environment
+## Create Virtual Environment
 
 python -m venv venv
 
-Activate Virtual Environment (Windows)
+## Activate Virtual Environment (Windows)
 
 .\venv\Scripts\activate
 
-Install Dependencies
+## Install Dependencies
 
 pip install -r requirements.txt
 
-Run Application
+## Run Application
 
 streamlit run app.py
 
-Agent Architecture Diagram
+---
+
+# Agent Architecture Diagram
 
 Job Description Upload
 ↓
@@ -61,7 +67,9 @@ HR Override
 ↓
 CSV Report Export
 
-LLM & Framework Choice with Rationale
+---
+
+# LLM & Framework Choice with Rationale
 
 Frontend Framework: Streamlit
 Reason: Rapid development of interactive AI workflow applications.
@@ -87,10 +95,12 @@ Reason: Structured candidate report generation and export.
 Future Enhancement:
 Future versions can integrate LLM-powered evaluation pipelines with LangChain-based caching and vector database support for scalable recruiter workflows.
 
-Security Mitigations
+---
+
+# Security Mitigations
 
 API Key Exposure
-Mitigation: API keys stored securely in .env files.
+Mitigation: API keys stored securely in `.env` files.
 
 Prompt Injection
 Mitigation: Structured rubric-based evaluation pipeline used.
@@ -107,7 +117,9 @@ Mitigation: Rule-based scoring with semantic thresholds.
 Data Leakage
 Mitigation: No permanent storage of resume data.
 
-Author
+---
+
+# Author
 
 Vivek Sagar Arora
 B.Tech CSE (AI/ML)
