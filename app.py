@@ -1,6 +1,16 @@
 import streamlit as st
 import pandas as pd
 
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Paragraph,
+    Spacer
+)
+
+from reportlab.lib.styles import (
+    getSampleStyleSheet
+)
+
 from utils.parser import (
     extract_text_from_pdf,
     extract_text_from_docx
@@ -16,6 +26,55 @@ from utils.scorer import (
 )
 
 # ---------------------------
+# PDF REPORT FUNCTION
+# ---------------------------
+
+def generate_pdf_report(candidates):
+
+    pdf_file = "candidate_shortlist_report.pdf"
+
+    doc = SimpleDocTemplate(pdf_file)
+
+    styles = getSampleStyleSheet()
+
+    elements = []
+
+    title = Paragraph(
+        "AI Resume Shortlisting Report",
+        styles['Title']
+    )
+
+    elements.append(title)
+
+    elements.append(Spacer(1, 12))
+
+    for idx, candidate in enumerate(
+        candidates,
+        start=1
+    ):
+
+        text = f"""
+        <b>{idx}. {candidate['Candidate Name']}</b><br/>
+        AI Score: {candidate['AI Total Score']}<br/>
+        Semantic Match: {candidate['Semantic Match %']}%<br/>
+        Recommendation: {candidate['Recommendation']}<br/>
+        Override Reason: {candidate['Override Reason']}<br/>
+        """
+
+        para = Paragraph(
+            text,
+            styles['BodyText']
+        )
+
+        elements.append(para)
+
+        elements.append(Spacer(1, 12))
+
+    doc.build(elements)
+
+    return pdf_file
+
+# ---------------------------
 # PAGE CONFIG
 # ---------------------------
 
@@ -25,8 +84,6 @@ st.set_page_config(
 )
 
 st.title("🤖 AI Resume Shortlisting Agent")
-
-
 
 # ---------------------------
 # JOB DESCRIPTION INPUT
@@ -234,44 +291,38 @@ if st.session_state.processed:
         # HR OVERRIDE
         # ---------------------------
 
-        override_key = f"override_{file.name}"
-
-        if override_key not in st.session_state:
-
-            st.session_state[
-                override_key
-            ] = recommendation
+        original_recommendation = recommendation
 
         override = st.selectbox(
 
             f"HR Override - {file.name}",
 
             [
+                original_recommendation,
                 "Hire",
                 "Maybe",
                 "Reject"
             ],
 
-            key=override_key
+            key=f"override_{file.name}"
         )
 
-        recommendation = override
+        override_reason = "No Override"
 
-        # ---------------------------
-        # OVERRIDE REASON
-        # ---------------------------
+        # Apply override only if changed
 
-        override_reason = ""
+        if override != original_recommendation:
 
-        if override != evaluation.get(
-            "recommendation",
-            "Unknown"
-        ):
+            recommendation = override
 
             override_reason = st.text_input(
 
                 f"Reason for Override - {file.name}"
             )
+
+        else:
+
+            recommendation = original_recommendation
 
         # ---------------------------
         # STORE DATA
@@ -285,43 +336,20 @@ if st.session_state.processed:
             "Semantic Match %":
             match_percentage,
 
-            # ---------------------------
-            # RUBRIC BREAKDOWN
-            # ---------------------------
-
             "Skills Match Score":
             evaluation["skills_match"]["score"],
-
-            "Skills Justification":
-            evaluation["skills_match"]["justification"],
 
             "Experience Relevance Score":
             evaluation["experience_relevance"]["score"],
 
-            "Experience Justification":
-            evaluation["experience_relevance"]["justification"],
-
             "Education Score":
             evaluation["education"]["score"],
-
-            "Education Justification":
-            evaluation["education"]["justification"],
 
             "Projects Score":
             evaluation["projects"]["score"],
 
-            "Projects Justification":
-            evaluation["projects"]["justification"],
-
             "Communication Score":
             evaluation["communication"]["score"],
-
-            "Communication Justification":
-            evaluation["communication"]["justification"],
-
-            # ---------------------------
-            # FINAL RESULTS
-            # ---------------------------
 
             "AI Total Score":
             total_score,
@@ -428,6 +456,10 @@ if st.session_state.processed:
         sorted_candidates
     )
 
+    # ---------------------------
+    # CSV EXPORT
+    # ---------------------------
+
     csv = report_df.to_csv(
         index=False
     )
@@ -443,3 +475,25 @@ if st.session_state.processed:
 
         mime="text/csv"
     )
+
+    # ---------------------------
+    # PDF EXPORT
+    # ---------------------------
+
+    pdf_path = generate_pdf_report(
+        sorted_candidates
+    )
+
+    with open(pdf_path, "rb") as pdf_file:
+
+        st.download_button(
+
+            label="Download PDF Report",
+
+            data=pdf_file,
+
+            file_name=
+            "candidate_shortlist_report.pdf",
+
+            mime="application/pdf"
+        )
