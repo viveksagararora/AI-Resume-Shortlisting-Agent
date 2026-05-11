@@ -49,25 +49,25 @@ streamlit run app.py
 
 # Agent Architecture Diagram
 
+```text
 Job Description Upload
-↓
+        ↓
 Resume Upload
-↓
+        ↓
 Resume Parsing
-↓
+        ↓
 Embedding Generation
-↓
+        ↓
 Semantic Similarity Matching
-↓
+        ↓
 Rubric-Based AI Scoring
-↓
+        ↓
 Candidate Ranking
-↓
+        ↓
 HR Override
-↓
+        ↓
 CSV Report Export
-
----
+```
 
 # LLM & Framework Choice with Rationale
 
