@@ -496,4 +496,8 @@ if st.session_state.processed:
             "candidate_shortlist_report.pdf",
 
             mime="application/pdf"
+<<<<<<< HEAD
         )
+=======
+        )
+>>>>>>> 6b69bde (Final recruiter workflow updates)
